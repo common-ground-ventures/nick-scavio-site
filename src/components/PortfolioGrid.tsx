@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ventures, type Venture } from "@/data/ventures";
 
 export default function PortfolioGrid() {
@@ -49,6 +49,18 @@ export default function PortfolioGrid() {
 function VentureCard({ venture }: { venture: Venture }) {
   const isLink = venture.url !== "#";
   const [hovered, setHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isCardInView = useInView(cardRef, { once: true, margin: "-50px" });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const showBrownscale = isMobile ? !isCardInView : !hovered;
 
   const hasHoverColor = !!venture.hoverColor;
   const isDftd = venture.slug === "drive-for-the-dream";
@@ -78,12 +90,14 @@ function VentureCard({ venture }: { venture: Venture }) {
           src={venture.image}
           alt={venture.name}
           fill
-          className={`transition-all duration-700 ease-out group-hover:scale-105 grayscale group-hover:grayscale-0 ${
+          className={`group-hover:scale-105 ${
             venture.overlayLogo
               ? "object-cover"
               : `object-contain ${getPadding()}`
           }${isDftd ? " opacity-0 group-hover:opacity-100" : ""}`}
           style={{
+            filter: showBrownscale ? "grayscale(100%) sepia(35%) hue-rotate(5deg)" : "none",
+            transition: "filter 0.7s ease, transform 0.7s ease",
             ...(venture.objectPosition ? { objectPosition: venture.objectPosition } : {}),
           }}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -95,8 +109,15 @@ function VentureCard({ venture }: { venture: Venture }) {
               alt={`${venture.name} logo`}
               width={180}
               height={80}
-              className="object-contain drop-shadow-lg grayscale group-hover:grayscale-0 transition-all duration-700"
-              style={venture.overlayInvert ? { filter: "brightness(0) invert(1)" } : undefined}
+              className="object-contain drop-shadow-lg"
+              style={{
+                filter: venture.overlayInvert
+                  ? "brightness(0) invert(1)"
+                  : showBrownscale
+                    ? "grayscale(100%) sepia(35%) hue-rotate(5deg)"
+                    : "none",
+                transition: "filter 0.7s ease",
+              }}
             />
           </div>
         )}
@@ -142,21 +163,24 @@ function VentureCard({ venture }: { venture: Venture }) {
 
   if (isLink) {
     return (
-      <a
-        href={venture.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cardClass}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        {content}
-      </a>
+      <div ref={cardRef}>
+        <a
+          href={venture.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cardClass}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          {content}
+        </a>
+      </div>
     );
   }
 
   return (
     <div
+      ref={cardRef}
       className={cardClass}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
