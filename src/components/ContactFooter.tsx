@@ -26,7 +26,7 @@ export default function ContactFooter() {
       {/* Top accent line */}
       <div className="h-px bg-gradient-to-r from-transparent via-[var(--color-accent-dim)]/40 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 lg:pt-32 pb-10 lg:pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Left -- Headline + Contact info */}
           <motion.div
@@ -46,8 +46,12 @@ export default function ContactFooter() {
             <div className="mt-10 space-y-4">
               <a
                 href="mailto:nick@scaviolaw.com"
-                className="block text-lg text-[var(--color-text-on-dark-muted)] hover:text-[var(--color-gold)] transition-colors duration-300"
+                className="flex items-center gap-2 text-lg text-[var(--color-text-on-dark-muted)] hover:text-[var(--color-gold)] transition-colors duration-300"
               >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
                 nick@scaviolaw.com
               </a>
               <a
