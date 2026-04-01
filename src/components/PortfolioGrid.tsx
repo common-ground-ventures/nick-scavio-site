@@ -65,7 +65,7 @@ function VentureCard({ venture }: { venture: Venture }) {
     offset: ["start end", "center center", "end start"],
   });
 
-  const activation = useTransform(scrollYProgress, [0, 0.4, 0.5, 0.6, 1], [0, 0, 1, 0, 0]);
+  const activation = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 0, 1, 0, 0]);
 
   useMotionValueEvent(activation, "change", (v) => setProgress(v));
 
