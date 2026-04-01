@@ -65,7 +65,7 @@ function VentureCard({ venture }: { venture: Venture }) {
     offset: ["start end", "center center", "end start"],
   });
 
-  const activation = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 0, 1, 0, 0]);
+  const activation = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.85, 1], [0, 0, 1, 0, 0]);
 
   useMotionValueEvent(activation, "change", (v) => setProgress(v));
 
@@ -109,20 +109,29 @@ function VentureCard({ venture }: { venture: Venture }) {
             venture.overlayLogo
               ? "object-cover"
               : `object-contain ${getPadding()}`
-          }${isDftd ? " opacity-0 group-hover:opacity-100" : ""}`}
+          }${isDftd && !isMobile ? " opacity-0 group-hover:opacity-100" : ""}`}
           style={{
             filter: isMobile
               ? mobileImageFilter
               : showBrownscale
                 ? "grayscale(100%) sepia(35%) hue-rotate(5deg)"
                 : "none",
-            transition: "filter 0.7s ease, transform 0.7s ease",
+            transition: "filter 0.7s ease, transform 0.7s ease, opacity 0.7s ease",
             ...(venture.objectPosition ? { objectPosition: venture.objectPosition } : {}),
+            ...(isDftd && isMobile ? { opacity: showHoverState ? 1 : 0 } : {}),
           }}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
         {venture.overlayLogo && (
-          <div className={`absolute inset-0 flex items-center justify-center ${isDftd ? "opacity-0 group-hover:opacity-100 transition-opacity duration-700" : ""}`}>
+          <div
+            className={`absolute inset-0 flex items-center justify-center ${
+              isDftd && !isMobile ? "opacity-0 group-hover:opacity-100 transition-opacity duration-700" : ""
+            }`}
+            style={isDftd && isMobile ? {
+              opacity: showHoverState ? 1 : 0,
+              transition: "opacity 0.7s ease",
+            } : undefined}
+          >
             <Image
               src={venture.overlayLogo}
               alt={`${venture.name} logo`}
@@ -144,7 +153,15 @@ function VentureCard({ venture }: { venture: Venture }) {
         )}
         {/* DFTD: show overlay logo at default when image is hidden */}
         {isDftd && venture.overlayLogo && (
-          <div className="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-700">
+          <div
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
+              !isMobile ? "group-hover:opacity-0" : ""
+            }`}
+            style={isMobile ? {
+              opacity: showHoverState ? 0 : 1,
+              transition: "opacity 0.7s ease",
+            } : undefined}
+          >
             <Image
               src={venture.overlayLogo}
               alt={`${venture.name} logo`}
