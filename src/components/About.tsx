@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const services = [
   "Construction Law",
@@ -14,6 +14,52 @@ const services = [
   "General Counsel Services",
   "Capital & Investment Transactions",
 ];
+
+function ServicePill({ service, index, isInView }: { service: string; index: number; isInView: boolean }) {
+  const pillRef = useRef<HTMLSpanElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: pillRef,
+    offset: ["start end", "center center", "end start"],
+  });
+
+  const activation = useTransform(scrollYProgress, [0, 0.4, 0.5, 0.6, 1], [0, 0, 1, 0, 0]);
+
+  useMotionValueEvent(activation, "change", (v) => setProgress(v));
+
+  const mobileActive = isMobile && progress > 0.3;
+  const showHoverState = isMobile ? mobileActive : false;
+
+  return (
+    <motion.span
+      ref={pillRef}
+      key={service}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.4, delay: 0.4 + index * 0.06 }}
+      className={`px-4 py-2 text-sm font-medium rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] transition-all duration-300 cursor-default ${
+        !isMobile ? "hover:bg-[var(--color-accent)] hover:border-[var(--color-accent)] hover:text-[var(--color-gold)]" : ""
+      }`}
+      style={isMobile ? {
+        backgroundColor: showHoverState ? 'var(--color-accent)' : undefined,
+        borderColor: showHoverState ? 'var(--color-accent)' : undefined,
+        color: showHoverState ? 'var(--color-gold)' : undefined,
+        transition: 'all 0.3s',
+      } : undefined}
+    >
+      {service}
+    </motion.span>
+  );
+}
 
 export default function About() {
   const ref = useRef(null);
@@ -65,15 +111,7 @@ export default function About() {
             <div className="mt-12">
               <div className="flex flex-wrap gap-2.5">
                 {services.map((service, i) => (
-                  <motion.span
-                    key={service}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.4, delay: 0.4 + i * 0.06 }}
-                    className="px-4 py-2 text-sm font-medium rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] hover:bg-[var(--color-accent)] hover:border-[var(--color-accent)] hover:text-[var(--color-gold)] transition-all duration-300 cursor-default"
-                  >
-                    {service}
-                  </motion.span>
+                  <ServicePill key={service} service={service} index={i} isInView={isInView} />
                 ))}
               </div>
             </div>

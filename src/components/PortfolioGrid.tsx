@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ventures, type Venture } from "@/data/ventures";
@@ -50,8 +50,8 @@ function VentureCard({ venture }: { venture: Venture }) {
   const isLink = venture.url !== "#";
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const isCardInView = useInView(cardRef, { once: true, margin: "-50px" });
   const [isMobile, setIsMobile] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -60,7 +60,18 @@ function VentureCard({ venture }: { venture: Venture }) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const showBrownscale = isMobile ? !isCardInView : !hovered;
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "center center", "end start"],
+  });
+
+  const activation = useTransform(scrollYProgress, [0, 0.4, 0.5, 0.6, 1], [0, 0, 1, 0, 0]);
+
+  useMotionValueEvent(activation, "change", (v) => setProgress(v));
+
+  const mobileActive = isMobile && progress > 0.3;
+  const showHoverState = isMobile ? mobileActive : hovered;
+  const showBrownscale = isMobile ? !mobileActive : !hovered;
 
   const hasHoverColor = !!venture.hoverColor;
   const isDftd = venture.slug === "drive-for-the-dream";
@@ -77,7 +88,11 @@ function VentureCard({ venture }: { venture: Venture }) {
   // Default image bg
   const defaultBg = venture.bgColor || "transparent";
   // On hover, image area bg changes to hoverColor (if set), otherwise stays same
-  const imageBg = hovered && hasHoverColor ? venture.hoverColor! : defaultBg;
+  const imageBg = showHoverState && hasHoverColor ? venture.hoverColor! : defaultBg;
+
+  const mobileImageFilter = isMobile
+    ? `grayscale(${(1 - progress) * 100}%) sepia(${(1 - progress) * 35}%) hue-rotate(${(1 - progress) * 5}deg)`
+    : undefined;
 
   const content = (
     <>
@@ -96,7 +111,11 @@ function VentureCard({ venture }: { venture: Venture }) {
               : `object-contain ${getPadding()}`
           }${isDftd ? " opacity-0 group-hover:opacity-100" : ""}`}
           style={{
-            filter: showBrownscale ? "grayscale(100%) sepia(35%) hue-rotate(5deg)" : "none",
+            filter: isMobile
+              ? mobileImageFilter
+              : showBrownscale
+                ? "grayscale(100%) sepia(35%) hue-rotate(5deg)"
+                : "none",
             transition: "filter 0.7s ease, transform 0.7s ease",
             ...(venture.objectPosition ? { objectPosition: venture.objectPosition } : {}),
           }}
@@ -113,9 +132,11 @@ function VentureCard({ venture }: { venture: Venture }) {
               style={{
                 filter: venture.overlayInvert
                   ? "brightness(0) invert(1)"
-                  : showBrownscale
-                    ? "grayscale(100%) sepia(35%) hue-rotate(5deg)"
-                    : "none",
+                  : isMobile
+                    ? mobileImageFilter
+                    : showBrownscale
+                      ? "grayscale(100%) sepia(35%) hue-rotate(5deg)"
+                      : "none",
                 transition: "filter 0.7s ease",
               }}
             />
@@ -136,22 +157,56 @@ function VentureCard({ venture }: { venture: Venture }) {
         )}
       </div>
       {/* Info — ALWAYS cordovan fill + gold text on hover */}
-      <div className="p-5 transition-colors duration-500 border-t border-[var(--color-border-subtle)] group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)]">
+      <div
+        className={`p-5 transition-colors duration-500 border-t border-[var(--color-border-subtle)] ${
+          !isMobile ? "group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)]" : ""
+        }`}
+        style={isMobile ? {
+          backgroundColor: showHoverState ? 'var(--color-accent)' : undefined,
+          borderColor: showHoverState ? 'var(--color-accent)' : undefined,
+          transition: 'all 0.5s',
+        } : undefined}
+      >
         <div className="flex items-start justify-between gap-3 mb-2">
-          <h3 className="text-base font-semibold text-[var(--color-cream)] group-hover:text-[var(--color-gold)] transition-colors duration-300 leading-tight min-h-[40px] flex items-start">
+          <h3
+            className={`text-base font-semibold text-[var(--color-cream)] transition-colors duration-300 leading-tight min-h-[40px] flex items-start ${
+              !isMobile ? "group-hover:text-[var(--color-gold)]" : ""
+            }`}
+            style={isMobile ? { color: showHoverState ? 'var(--color-gold)' : undefined, transition: 'color 0.3s' } : undefined}
+          >
             {venture.name}
           </h3>
-          <span className="shrink-0 text-[9px] font-bold tracking-[0.2em] uppercase px-2 py-0.5 rounded-full bg-[var(--color-bg-elevated)] text-[var(--color-text-muted)] border border-[var(--color-border-subtle)] group-hover:text-[var(--color-gold)] group-hover:bg-transparent group-hover:border-[var(--color-gold)]/30 transition-colors duration-300">
+          <span
+            className={`shrink-0 text-[9px] font-bold tracking-[0.2em] uppercase px-2 py-0.5 rounded-full bg-[var(--color-bg-elevated)] text-[var(--color-text-muted)] border border-[var(--color-border-subtle)] transition-colors duration-300 ${
+              !isMobile ? "group-hover:text-[var(--color-gold)] group-hover:bg-transparent group-hover:border-[var(--color-gold)]/30" : ""
+            }`}
+            style={isMobile && showHoverState ? {
+              color: 'var(--color-gold)',
+              backgroundColor: 'transparent',
+              borderColor: 'rgba(var(--color-gold-rgb, 212, 175, 55), 0.3)',
+              transition: 'all 0.3s',
+            } : isMobile ? { transition: 'all 0.3s' } : undefined}
+          >
             {venture.status}
           </span>
         </div>
         <div className="h-[68px] overflow-hidden mb-3">
-          <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed group-hover:text-[var(--color-cream)]/80 transition-colors duration-300">
+          <p
+            className={`text-sm text-[var(--color-text-secondary)] leading-relaxed transition-colors duration-300 ${
+              !isMobile ? "group-hover:text-[var(--color-cream)]/80" : ""
+            }`}
+            style={isMobile ? { color: showHoverState ? 'rgba(var(--color-cream-rgb, 245, 241, 235), 0.8)' : undefined, transition: 'color 0.3s' } : undefined}
+          >
             {venture.description}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[var(--color-accent)] group-hover:text-[var(--color-gold)] transition-colors duration-300">
+          <span
+            className={`text-[10px] font-bold tracking-[0.25em] uppercase text-[var(--color-accent)] transition-colors duration-300 ${
+              !isMobile ? "group-hover:text-[var(--color-gold)]" : ""
+            }`}
+            style={isMobile ? { color: showHoverState ? 'var(--color-gold)' : undefined, transition: 'color 0.3s' } : undefined}
+          >
             {venture.role}
           </span>
         </div>
@@ -159,7 +214,7 @@ function VentureCard({ venture }: { venture: Venture }) {
     </>
   );
 
-  const cardClass = "group block rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border-subtle)] hover:border-[var(--color-accent)] transition-all duration-500 overflow-hidden hover:scale-[1.02]";
+  const cardClass = `group block rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border-subtle)] hover:border-[var(--color-accent)] transition-all duration-500 overflow-hidden hover:scale-[1.02]`;
 
   if (isLink) {
     return (
