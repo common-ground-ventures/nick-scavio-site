@@ -32,7 +32,7 @@ function ServicePill({ service, index, isInView }: { service: string; index: num
     offset: ["start end", "center center", "end start"],
   });
 
-  const activation = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.85, 1], [0, 0, 1, 0, 0]);
+  const activation = useTransform(scrollYProgress, [0, 0.2, 0.35, 0.65, 0.8, 1], [0, 0, 1, 1, 0, 0]);
 
   useMotionValueEvent(activation, "change", (v) => setProgress(v));
 
