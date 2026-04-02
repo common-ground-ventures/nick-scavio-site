@@ -75,6 +75,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    canonical: "https://nickscavio.com",
+  },
 };
 
 export default function RootLayout({
@@ -84,7 +87,75 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="grain antialiased">{children}</body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="grain antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Nicholas J. Scavio",
+              jobTitle: "Attorney, Investor, General Counsel",
+              description:
+                "Phoenix-based attorney with 15+ years of legal strategy across real estate, venture, and corporate law. Founder of Scavio Law Firm. General Counsel for Common Ground and LIEF Development.",
+              url: "https://nickscavio.com",
+              email: "nick@scaviolaw.com",
+              image: "https://nickscavio.com/nick-scavio-headshot.jpg",
+              sameAs: [
+                "https://www.linkedin.com/in/nicholas-scavio-66665540/",
+                "https://commonground.ventures",
+              ],
+              alumniOf: [
+                {
+                  "@type": "CollegeOrUniversity",
+                  name: "Arizona State University - Sandra Day O'Connor College of Law",
+                },
+                {
+                  "@type": "CollegeOrUniversity",
+                  name: "Arizona State University",
+                },
+              ],
+              knowsAbout: [
+                "Construction Law",
+                "Commercial Real Estate",
+                "Cannabis Industry Law",
+                "Commercial Litigation",
+                "Corporate Law",
+                "Contract Negotiation",
+                "General Counsel Services",
+              ],
+              worksFor: [
+                {
+                  "@type": "Organization",
+                  name: "Scavio Law Firm",
+                  url: "https://nickscavio.com",
+                },
+                {
+                  "@type": "Organization",
+                  name: "Common Ground",
+                  url: "https://commonground.ventures",
+                },
+                {
+                  "@type": "Organization",
+                  name: "LIEF Development + Construction",
+                  url: "https://anewlief.com",
+                },
+              ],
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Phoenix",
+                addressRegion: "AZ",
+                addressCountry: "US",
+              },
+            }),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
