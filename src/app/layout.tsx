@@ -21,6 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://nickscavio.com"),
   title: "Nick Scavio | Attorney, Investor, General Counsel",
   description:
     "Fifteen years of legal strategy across real estate, venture, and corporate law. Protecting the people who build things.",
