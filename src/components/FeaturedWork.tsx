@@ -81,12 +81,12 @@ function FeaturedCard({ venture }: { venture: Venture }) {
     : undefined;
 
   return (
-    <div ref={cardRef}>
+    <div ref={cardRef} className="h-full">
       <a
         href={venture.url}
         target={venture.url !== "#" ? "_blank" : undefined}
         rel={venture.url !== "#" ? "noopener noreferrer" : undefined}
-        className={`group block rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-all duration-500 ${
+        className={`group flex flex-col h-full rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-all duration-500 ${
           !isMobile ? "hover:bg-[var(--color-accent)] hover:border-[var(--color-accent)]" : ""
         }`}
         style={isMobile ? {
@@ -119,7 +119,7 @@ function FeaturedCard({ venture }: { venture: Venture }) {
 
         {/* Content below image */}
         <div
-          className={`p-6 lg:p-8 border-t border-[var(--color-border-subtle)] transition-colors duration-500 ${
+          className={`p-6 lg:p-8 border-t border-[var(--color-border-subtle)] transition-colors duration-500 flex-1 ${
             !isMobile ? "group-hover:border-[var(--color-accent)]" : ""
           }`}
           style={isMobile ? {
