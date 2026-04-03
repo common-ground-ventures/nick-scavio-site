@@ -155,12 +155,12 @@ export default function ContactFooter() {
               </a>
               <span className="opacity-30">|</span>
               <a
-                href="https://apexx.agency"
+                href="https://commonground.ventures"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[var(--color-gold)] transition-colors duration-300"
               >
-                Enhanced by <span className="font-semibold">APEXX AI</span>
+                Enhanced by <span className="font-semibold">Common Ground</span>
               </a>
             </div>
           </div>
