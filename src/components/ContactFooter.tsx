@@ -6,14 +6,16 @@ import { useRef, useState } from "react";
 export default function ContactFooter() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Message from ${name}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    const fullName = `${firstName} ${lastName}`.trim();
+    const subject = encodeURIComponent(`Message from ${fullName}`);
+    const body = encodeURIComponent(`Name: ${fullName}\nEmail: ${email}\n\n${message}`);
     window.location.href = `mailto:nick@scaviolaw.com?subject=${subject}&body=${body}`;
   };
 
@@ -88,19 +90,35 @@ export default function ContactFooter() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label htmlFor="name" className="block text-[11px] font-semibold tracking-[0.2em] uppercase text-[var(--color-gold)] mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3.5 bg-[var(--color-bg-dark-elevated)] border border-[var(--color-border)] rounded-lg text-[var(--color-cream)] placeholder-[var(--color-text-on-dark-muted)]/40 focus:outline-none focus:border-[var(--color-accent)] transition-colors"
-                  placeholder="Your name"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="firstName" className="block text-[11px] font-semibold tracking-[0.2em] uppercase text-[var(--color-gold)] mb-2">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="w-full px-4 py-3.5 bg-[var(--color-bg-dark-elevated)] border border-[var(--color-border)] rounded-lg text-[var(--color-cream)] placeholder-[var(--color-text-on-dark-muted)]/40 focus:outline-none focus:border-[var(--color-accent)] transition-colors"
+                    placeholder="First name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="lastName" className="block text-[11px] font-semibold tracking-[0.2em] uppercase text-[var(--color-gold)] mb-2">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="w-full px-4 py-3.5 bg-[var(--color-bg-dark-elevated)] border border-[var(--color-border)] rounded-lg text-[var(--color-cream)] placeholder-[var(--color-text-on-dark-muted)]/40 focus:outline-none focus:border-[var(--color-accent)] transition-colors"
+                    placeholder="Last name"
+                  />
+                </div>
               </div>
               <div>
                 <label htmlFor="email" className="block text-[11px] font-semibold tracking-[0.2em] uppercase text-[var(--color-gold)] mb-2">
@@ -127,7 +145,7 @@ export default function ContactFooter() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   className="w-full px-4 py-3.5 bg-[var(--color-bg-dark-elevated)] border border-[var(--color-border)] rounded-lg text-[var(--color-cream)] placeholder-[var(--color-text-on-dark-muted)]/40 focus:outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
-                  placeholder="What are you building?"
+                  placeholder="How can I help?"
                 />
               </div>
               <button
