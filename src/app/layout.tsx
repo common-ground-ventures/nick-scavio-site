@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     description:
       "Fifteen years of legal strategy across real estate, venture, and corporate law.",
     url: "https://nickscavio.com",
-    siteName: "Nick Scavio",
+    siteName: "NickScavio.com",
     type: "website",
     locale: "en_US",
     images: [
