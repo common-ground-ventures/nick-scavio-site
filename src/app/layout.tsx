@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nickscavio.com"),
+  metadataBase: new URL("https://nick-scavio-site.vercel.app"),
   title: "Nick Scavio | Attorney, Investor, General Counsel",
   description:
     "Fifteen years of legal strategy across real estate, venture, and corporate law. Protecting the people who build things.",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     title: "Nick Scavio | Attorney, Investor, General Counsel",
     description:
       "Fifteen years of legal strategy across real estate, venture, and corporate law.",
-    url: "https://nickscavio.com",
+    url: "https://nick-scavio-site.vercel.app",
     siteName: "NickScavio.com",
     type: "website",
     locale: "en_US",
