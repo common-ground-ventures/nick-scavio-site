@@ -164,21 +164,12 @@ export default function ContactFooter() {
             <span>&copy; 2026 Nicholas J. Scavio, Esq. All rights reserved.</span>
             <div className="flex items-center gap-4 flex-wrap justify-center">
               <a
-                href="https://www.liploicreative.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[var(--color-gold)] transition-colors duration-300"
-              >
-                Branded by <span className="font-semibold">Lip Loi Creative</span>
-              </a>
-              <span className="opacity-30">|</span>
-              <a
                 href="https://commonground.ventures"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[var(--color-gold)] transition-colors duration-300"
               >
-                Enhanced by <span className="font-semibold">Common Ground</span>
+                Created by <span className="font-semibold">Common Ground</span>
               </a>
             </div>
           </div>
