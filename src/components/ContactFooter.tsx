@@ -68,7 +68,7 @@ export default function ContactFooter() {
                 LinkedIn
               </a>
               <a
-                href="https://commonground.ventures"
+                href="https://www.commonground.ventures"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-lg text-[var(--color-text-on-dark-muted)] hover:text-[var(--color-gold)] transition-colors duration-300"
@@ -164,7 +164,7 @@ export default function ContactFooter() {
             <span>&copy; 2026 Nicholas J. Scavio, Esq. All rights reserved.</span>
             <div className="flex items-center gap-4 flex-wrap justify-center">
               <a
-                href="https://commonground.ventures"
+                href="https://www.commonground.ventures"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[var(--color-gold)] transition-colors duration-300"

@@ -32,6 +32,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://nickscavio.com/sitemap.xml",
+    sitemap: "https://nick.commonground.ventures/sitemap.xml",
   };
 }

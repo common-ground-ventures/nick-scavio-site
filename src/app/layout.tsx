@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nick-scavio-site.vercel.app"),
+  metadataBase: new URL("https://nick.commonground.ventures"),
   title: "Nick Scavio | Attorney, Investor, General Counsel",
   description:
     "Fifteen years of legal strategy across real estate, venture, and corporate law. Protecting the people who build things.",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     title: "Nick Scavio | Attorney, Investor, General Counsel",
     description:
       "Fifteen years of legal strategy across real estate, venture, and corporate law.",
-    url: "https://nick-scavio-site.vercel.app",
+    url: "https://nick.commonground.ventures",
     siteName: "NickScavio.com",
     type: "website",
     locale: "en_US",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://nickscavio.com",
+    canonical: "https://nick.commonground.ventures",
   },
 };
 
@@ -105,12 +105,12 @@ export default function RootLayout({
               jobTitle: "Attorney, Investor, General Counsel",
               description:
                 "Phoenix-based attorney with 15+ years of legal strategy across real estate, venture, and corporate law. Founder of Scavio Law Firm. General Counsel for Common Ground and LIEF Development.",
-              url: "https://nickscavio.com",
+              url: "https://nick.commonground.ventures",
               email: "nick@scaviolaw.com",
-              image: "https://nickscavio.com/nick-scavio-headshot.jpg",
+              image: "https://nick.commonground.ventures/nick-scavio-headshot.jpg",
               sameAs: [
                 "https://www.linkedin.com/in/nicholas-scavio-66665540/",
-                "https://commonground.ventures",
+                "https://www.commonground.ventures",
               ],
               alumniOf: [
                 {
@@ -135,12 +135,12 @@ export default function RootLayout({
                 {
                   "@type": "Organization",
                   name: "Scavio Law Firm",
-                  url: "https://nickscavio.com",
+                  url: "https://nick.commonground.ventures",
                 },
                 {
                   "@type": "Organization",
                   name: "Common Ground",
-                  url: "https://commonground.ventures",
+                  url: "https://www.commonground.ventures",
                 },
                 {
                   "@type": "Organization",

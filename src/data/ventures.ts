@@ -35,7 +35,7 @@ export const ventures: Venture[] = [
     slug: "common-ground",
     description: "Venture advisory and strategic partnerships for founders and operators.",
     image: "/logos/common-ground.png",
-    url: "https://commonground.ventures",
+    url: "https://www.commonground.ventures",
     role: "General Counsel",
     status: "Active",
     featured: true,
