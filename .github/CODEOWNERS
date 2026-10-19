@@ -1,0 +1,3 @@
+# Brand files route to brand review. Copy and content changes do not.
+/src/app/globals.css             @jimmyk247
+/src/components/ContactFooter.tsx @jimmyk247
