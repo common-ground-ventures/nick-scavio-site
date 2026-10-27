@@ -1,0 +1,26 @@
+{
+  "note": "Known findings on the day the gate was wired. Each entry is debt to fix, not a permission. Shrink it; never grow it without review.",
+  "export_commit": "7f969682a3f76ec867dc108d7fc2582f4bae9a19",
+  "findings": [
+    {
+      "fingerprint": "FIGURE-UNAPPROVED|index.html|$100 million",
+      "count": 1
+    },
+    {
+      "fingerprint": "FIGURE-UNAPPROVED|index.html|$100M+",
+      "count": 1
+    },
+    {
+      "fingerprint": "NAME-LIEF-CAPS|index.html|L\u00cfEF",
+      "count": 3
+    },
+    {
+      "fingerprint": "NAV-NOT-A-LINK|index.html|<button class=\"md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1",
+      "count": 1
+    },
+    {
+      "fingerprint": "NAV-NOT-A-LINK|index.html|<button class=\"ml-1 px-5 py-2 text-sm bg-[var(--color-cream)] text-[var(--color-",
+      "count": 1
+    }
+  ]
+}
